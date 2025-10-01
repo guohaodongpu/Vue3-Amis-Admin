@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Amis Editor - 可视化编辑器</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // 错误过滤配置
+      const errorKeywords = ['ResizeObserver loop', 'Unexpected usage', 'loadForeignModule', 'EditorSimpleWorker', 'monaco-editor'];
+      const shouldFilterError = (msg) => msg && errorKeywords.some(k => String(msg).includes(k));
+      
+      // 全局错误拦截
+      window.addEventListener('error', (e) => {
+        if (shouldFilterError(e.message) || shouldFilterError(e.filename)) {
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          e.preventDefault();
+          return false;
+        }
+      }, true);
+      
+      window.addEventListener('unhandledrejection', (e) => {
+        if (shouldFilterError(e.reason && (e.reason.message || e.reason))) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+        }
+      }, true);
+      
+      // 控制台错误过滤
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        if (!args.some(arg => shouldFilterError(arg))) {
+          originalConsoleError.apply(console, args);
+        }
+      };
+      
+      // Monaco Editor 配置
+      window.MonacoEnvironment = { getWorker: () => null };
+    </script>
+  </body>
+</html>
+

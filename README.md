@@ -22,6 +22,9 @@ src/
 │       ├── site.json       # 示例主导航配置
 │       ├── crud-*.json     # 示例CRUD页面配置
 │       └── *.json          # 其他示例页面配置
+├── editor/                  # 可视化编辑器（仅开发环境）
+│   └── index.jsx           # 编辑器入口文件
+├── editor.html              # 编辑器HTML模板
 ├── App.vue                  # 根组件
 ├── main.js                  # 入口文件
 └── index.html               # HTML模板
@@ -30,6 +33,8 @@ public/                      # 公共资源
 └── logo.svg                # Logo图片
 ```
 
+> ⚠️ **注意**: `editor/` 和 `editor.html` 仅在开发环境使用，**不会参与生产构建和打包**
+
 **说明:**
 - `pages/example/` 仅作为示例参考，展示 amis 的各种功能
 - 实际项目中可以在 `pages/` 目录下创建自己的配置文件
@@ -37,17 +42,27 @@ public/                      # 公共资源
 
 ### 🚀 使用方式
 
-1. **启动项目**
+> 本项目使用 **pnpm** 作为包管理器。如果你还没有安装 pnpm，请先运行：`npm install -g pnpm`
+
+1. **安装依赖**
    ```bash
-   npm run dev
+   pnpm install
    ```
 
-2. **访问应用**
-   ```
-   http://localhost:8081
+2. **启动项目**
+   ```bash
+   pnpm run dev
    ```
 
-3. **修改页面**
+3. **访问应用**
+   ```
+   主应用: http://localhost:8081
+   可视化编辑器: http://localhost:8081/editor
+   ```
+
+   > 💡 **编辑器说明**: 可视化编辑器仅在开发环境可用，用于可视化设计页面并导出 JSON Schema。点击"保存"按钮后，Schema 会输出到浏览器控制台（F12）
+
+4. **修改页面**
    - 直接编辑 `src/pages/` 目录下的JSON文件
    - 修改主导航配置文件（如 `pages/example/site.json`）来调整导航菜单
    - 修改各个页面的JSON配置来调整页面内容

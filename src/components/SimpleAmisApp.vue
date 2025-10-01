@@ -32,7 +32,7 @@ export default {
         }
         
         const script = document.createElement('script');
-        script.src = 'https://unpkg.com/amis@3.2.0/sdk/sdk.js';
+        script.src = 'libs/amis/sdk.js';
         script.onload = resolve;
         document.head.appendChild(script);
       });

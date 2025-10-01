@@ -1,0 +1,161 @@
+# 简化的 JSON 驱动管理系统
+
+## 架构说明
+
+这个版本大大简化了架构，Vue只作为承载容器，所有页面都通过JSON配置来驱动。
+
+### 🎯 核心理念
+
+- **Vue作为承载**: Vue只负责提供运行环境
+- **JSON驱动**: 所有页面、路由、功能都通过JSON配置
+- **amis渲染**: 使用amis作为JSON渲染引擎
+- **极简架构**: 最小化的代码复杂度
+
+### 📁 项目结构
+
+```
+src/
+├── components/
+│   └── SimpleAmisApp.vue    # 唯一的Vue组件，承载amis
+├── pages/                   # JSON配置文件（已移动到src下）
+│   ├── site.json           # 主导航配置
+│   ├── crud-*.json        # CRUD页面配置
+│   └── *.json             # 其他页面配置
+├── App.vue                  # 根组件
+├── main.js                  # 入口文件
+└── index.html               # HTML模板
+
+public/                      # 公共资源
+└── logo.svg                # Logo图片
+```
+
+### 🚀 使用方式
+
+1. **启动项目**
+   ```bash
+   npm run dev
+   ```
+
+2. **访问应用**
+   ```
+   http://localhost:8081
+   ```
+
+3. **修改页面**
+   - 直接编辑 `src/pages/` 目录下的JSON文件
+   - 修改 `src/pages/site.json` 来调整导航菜单
+   - 修改各个页面的JSON配置来调整页面内容
+
+### 🎨 配置说明
+
+#### 主导航配置 (site.json)
+```json
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "pages": [
+      {
+        "label": "首页",
+        "url": "/",
+        "redirect": "/index/1"
+      },
+      {
+        "label": "示例",
+        "children": [
+          {
+            "label": "页面A",
+            "url": "index",
+            "schema": {
+              "type": "page",
+              "title": "页面A",
+              "body": "页面A内容"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+#### 页面配置示例
+```json
+{
+  "type": "page",
+  "title": "列表页面",
+  "body": [
+    {
+      "type": "crud",
+      "api": "/api/data",
+      "columns": [
+        {
+          "name": "id",
+          "label": "ID"
+        },
+        {
+          "name": "name",
+          "label": "名称"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### ✨ 优势
+
+1. **极简架构**: 只有1个Vue组件
+2. **JSON驱动**: 所有功能都通过JSON配置
+3. **易于维护**: 修改页面只需要编辑JSON文件
+4. **快速开发**: 不需要写Vue代码
+5. **amis生态**: 享受amis的所有功能
+
+### 🔧 扩展功能
+
+如果需要添加新功能：
+
+1. **新页面**: 在 `src/pages/` 目录创建新的JSON文件
+2. **新路由**: 在 `src/pages/site.json` 中添加导航配置
+3. **新功能**: 通过amis的JSON配置实现
+
+### 🎨 核心实现
+
+**SimpleAmisApp.vue** 完全参考原始 `index.html` 的实现：
+- ✅ 完整的 `normalizeLink` 函数处理所有路径情况（相对路径、绝对路径、查询参数、锚点）
+- ✅ 完整的 `isCurrentUrl` 函数正确判断当前页面
+- ✅ 使用 amis 内置的 fetcher，不自定义数据加载
+- ✅ 避免重复导航，优化性能
+- ✅ 支持所有 amis 功能：schema、schemaApi、redirect 等
+
+### 🐛 调试模式
+
+如果需要查看详细的路由和导航日志，可以开启调试模式：
+
+**开启调试:**
+在 `src/components/SimpleAmisApp.vue` 中：
+```javascript
+data() {
+  return {
+    amisInstance: null,
+    debug: true  // 设置为 true 开启调试
+  };
+}
+```
+
+**调试日志包括:**
+- 🚀 amis 应用初始化
+- 🔄 路由变化
+- 📍 位置更新
+- 🔗 导航跳转
+- ⏭️ 重复导航检测
+
+### 📝 注意事项
+
+- 所有页面都通过amis渲染
+- 路由由amis内部管理
+- Vue只提供运行环境
+- 主题和样式由amis控制
+- 默认关闭调试日志，生产环境保持干净
+
+这样的架构让您可以专注于JSON配置，而不需要关心Vue的复杂性！

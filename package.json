@@ -1,0 +1,47 @@
+{
+  "name": "amis-vue-admin",
+  "version": "1.0.0",
+  "description": "基于 amis + Vue 的项目模板",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "gh-pages": "rm -rf gh-pages && fis3 release gh-pages -c",
+    "deploy-gh-pages": "git subtree push --prefix gh-pages origin gh-pages"
+  },
+  "keywords": [
+    "amis",
+    "vue",
+    "boilerplate",
+    "admin"
+  ],
+  "author": "fex",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "vue": "^2.7.14",
+    "vue-router": "^3.6.5",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "babel-loader": "^10.0.0",
+    "body-parser": "^1.19.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "express": "^4.17.1",
+    "html-webpack-plugin": "^5.5.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "reload": "^3.1.1",
+    "style-loader": "^3.3.3",
+    "vue-loader": "^15.10.1",
+    "vue-template-compiler": "^2.7.14",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

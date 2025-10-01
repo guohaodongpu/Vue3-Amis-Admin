@@ -49,7 +49,7 @@ public/                      # 公共资源
    pnpm install
    ```
 
-2. **启动项目**
+2. **启动开发服务器**
    ```bash
    pnpm run dev
    ```
@@ -62,7 +62,16 @@ public/                      # 公共资源
 
    > 💡 **编辑器说明**: 可视化编辑器仅在开发环境可用，用于可视化设计页面并导出 JSON Schema。点击"保存"按钮后，Schema 会输出到浏览器控制台（F12）
 
-4. **修改页面**
+4. **构建生产版本**
+   ```bash
+   pnpm run build
+   ```
+   
+   构建完成后，生产文件将输出到 `dist/` 目录，可直接部署到服务器。
+   
+   > ⚠️ **注意**: 生产构建**不包含**编辑器，仅打包主应用，确保包体积最小化
+
+5. **修改页面**
    - 直接编辑 `src/pages/` 目录下的JSON文件
    - 修改主导航配置文件（如 `pages/example/site.json`）来调整导航菜单
    - 修改各个页面的JSON配置来调整页面内容
@@ -141,58 +150,21 @@ public/                      # 公共资源
 2. **新路由**: 在主导航配置文件中添加导航配置
 3. **新功能**: 通过amis的JSON配置实现
 
-#### 💡 实际项目建议
-
-**目录组织方式：**
-
-**方式1：按权限角色组织**
-```
-src/pages/
-├── example/           # 示例（可删除）
-├── site-admin.json   # 管理员主菜单
-├── site-user.json    # 普通用户主菜单
-
-├── admin/            # 管理员专用页面
-│   ├── user-management.json
-│   └── system-settings.json
-└── common/           # 公共页面
-    ├── profile.json
-    └── dashboard.json
-```
-
-**方式2：按业务模块组织**
-```
-src/pages/
-├── example/          # 示例（可删除）
-├── site.json        # 主菜单
-├── user/            # 用户模块
-│   ├── list.json
-│   ├── detail.json
-│   └── edit.json
-└── product/         # 产品模块
-    ├── list.json
-    └── detail.json
-```
-
-**配置入口：**
-在 `src/components/SimpleAmisApp.vue` 中修改 `api` 字段：
-```javascript
-const app = {
-  type: 'app',
-  brandName: 'Amis-Admin+Vue3',
-  logo: '/public/logo.svg',
-  api: '/pages/example/site.json'  // 改为你的主配置文件路径
-};
-```
-
 ### 🎨 核心实现
 
-**SimpleAmisApp.vue** 完全参考原始 `index.html` 的实现：
+**SimpleAmisApp.vue** 完全参考 [amis-admin/index.html](https://github.com/aisuda/amis-admin/blob/master/index.html) 的实现：
 - ✅ 完整的 `normalizeLink` 函数处理所有路径情况（相对路径、绝对路径、查询参数、锚点）
 - ✅ 完整的 `isCurrentUrl` 函数正确判断当前页面
 - ✅ 使用 amis 内置的 fetcher，不自定义数据加载
 - ✅ 避免重复导航，优化性能
 - ✅ 支持所有 amis 功能：schema、schemaApi、redirect 等
+
+### 📚 参考项目
+
+本项目参考了以下优秀的开源项目：
+- [baidu/amis](https://github.com/baidu/amis) - 前端低代码框架
+- [aisuda/amis-admin](https://github.com/aisuda/amis-admin) - amis 后台管理模板
+- [aisuda/amis-editor-demo](https://github.com/aisuda/amis-editor-demo) - amis 可视化编辑器示例
 
 ### 🐛 调试模式
 

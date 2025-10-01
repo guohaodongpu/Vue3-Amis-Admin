@@ -1,1 +1,0 @@
-window.jsonpCallback&&window.jsonpCallback({data:{type:"page",title:"标题",body:"this result is from jsonp"},status:0});

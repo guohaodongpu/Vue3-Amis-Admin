@@ -1,4 +1,4 @@
-# 简化的 JSON 驱动管理系统
+# Vue3-Amis-Admin
 
 ## 架构说明
 

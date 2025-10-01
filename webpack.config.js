@@ -49,13 +49,18 @@ module.exports = {
         {
           from: 'src/pages',
           to: 'pages'
+        },
+        // 复制 amis SDK 资源
+        {
+          from: 'node_modules/amis/sdk',
+          to: 'libs/amis'
         }
+        // Amis 6.x 已内置 history，无需单独复制
       ]
     })
   ],
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
       '@': path.resolve(__dirname, 'src')
     },
     extensions: ['.js', '.vue', '.json']
@@ -72,7 +77,13 @@ module.exports = {
       {
         directory: path.join(__dirname, 'public'),
         publicPath: '/public'
+      },
+      // 开发环境直接访问 node_modules
+      {
+        directory: path.join(__dirname, 'node_modules/amis'),
+        publicPath: '/libs/amis'
       }
+      // Amis 6.x 已内置 history，无需单独服务
     ],
     compress: true,
     port: 8081,

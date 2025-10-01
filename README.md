@@ -17,10 +17,11 @@
 src/
 ├── components/
 │   └── SimpleAmisApp.vue    # 唯一的Vue组件，承载amis
-├── pages/                   # JSON配置文件（已移动到src下）
-│   ├── site.json           # 主导航配置
-│   ├── crud-*.json        # CRUD页面配置
-│   └── *.json             # 其他页面配置
+├── pages/                   # JSON配置文件目录
+│   └── example/            # 示例页面（仅供参考）
+│       ├── site.json       # 示例主导航配置
+│       ├── crud-*.json     # 示例CRUD页面配置
+│       └── *.json          # 其他示例页面配置
 ├── App.vue                  # 根组件
 ├── main.js                  # 入口文件
 └── index.html               # HTML模板
@@ -28,6 +29,11 @@ src/
 public/                      # 公共资源
 └── logo.svg                # Logo图片
 ```
+
+**说明:**
+- `pages/example/` 仅作为示例参考，展示 amis 的各种功能
+- 实际项目中可以在 `pages/` 目录下创建自己的配置文件
+- 支持按功能模块或权限角色组织不同的 JSON 配置
 
 ### 🚀 使用方式
 
@@ -43,8 +49,9 @@ public/                      # 公共资源
 
 3. **修改页面**
    - 直接编辑 `src/pages/` 目录下的JSON文件
-   - 修改 `src/pages/site.json` 来调整导航菜单
+   - 修改主导航配置文件（如 `pages/example/site.json`）来调整导航菜单
    - 修改各个页面的JSON配置来调整页面内容
+   - `example/` 文件夹仅供参考，可以创建自己的配置结构
 
 ### 🎨 配置说明
 
@@ -116,8 +123,52 @@ public/                      # 公共资源
 如果需要添加新功能：
 
 1. **新页面**: 在 `src/pages/` 目录创建新的JSON文件
-2. **新路由**: 在 `src/pages/site.json` 中添加导航配置
+2. **新路由**: 在主导航配置文件中添加导航配置
 3. **新功能**: 通过amis的JSON配置实现
+
+#### 💡 实际项目建议
+
+**目录组织方式：**
+
+**方式1：按权限角色组织**
+```
+src/pages/
+├── example/           # 示例（可删除）
+├── site-admin.json   # 管理员主菜单
+├── site-user.json    # 普通用户主菜单
+
+├── admin/            # 管理员专用页面
+│   ├── user-management.json
+│   └── system-settings.json
+└── common/           # 公共页面
+    ├── profile.json
+    └── dashboard.json
+```
+
+**方式2：按业务模块组织**
+```
+src/pages/
+├── example/          # 示例（可删除）
+├── site.json        # 主菜单
+├── user/            # 用户模块
+│   ├── list.json
+│   ├── detail.json
+│   └── edit.json
+└── product/         # 产品模块
+    ├── list.json
+    └── detail.json
+```
+
+**配置入口：**
+在 `src/components/SimpleAmisApp.vue` 中修改 `api` 字段：
+```javascript
+const app = {
+  type: 'app',
+  brandName: 'Amis-Admin+Vue3',
+  logo: '/public/logo.svg',
+  api: '/pages/example/site.json'  // 改为你的主配置文件路径
+};
+```
 
 ### 🎨 核心实现
 

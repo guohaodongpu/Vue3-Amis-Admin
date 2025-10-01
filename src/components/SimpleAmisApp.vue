@@ -42,7 +42,24 @@ export default {
       
       const amis = window.amisRequire('amis/embed');
       const match = window.amisRequire('path-to-regexp').match;
-      const history = window.History.createHashHistory();
+      
+      // Amis 6.x 使用内置的 history 管理
+      // 尝试使用 amisRequire 获取 history
+      let history;
+      try {
+        const HistoryLib = window.amisRequire('history');
+        history = HistoryLib.createHashHistory();
+        if (this.debug) console.log('✅ 使用 amis 内置的 history');
+      } catch (e) {
+        // 如果失败，尝试使用全局 History
+        if (this.debug) console.log('⚠️ amis 内置 history 不可用，尝试使用全局 History');
+        const HistoryLib = window.History || window.HistoryLibrary;
+        if (!HistoryLib || !HistoryLib.createHashHistory) {
+          console.error('History library not available. Please include history.js');
+          return;
+        }
+        history = HistoryLib.createHashHistory();
+      }
       
       if (this.debug) console.log('🚀 开始渲染amis应用...');
       
@@ -50,7 +67,7 @@ export default {
         type: 'app',
         brandName: 'Amis-Admin+Vue3',
         logo: '/public/logo.svg',
-        api: '/pages/site.json'
+        api: '/pages/example/site.json'
       };
       
       // 参考原始index.html的normalizeLink实现
